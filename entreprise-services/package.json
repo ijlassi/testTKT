@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.1.1",
+    "sequelize": "^6.28.0",
+    "sequelize-cli": "^6.6.0",
+    "swagger-autogen": "^2.23.0",
+    "swagger-ui-express": "^4.6.0"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "swagger-autogen": "node ./swagger.js"
+  },
+  "name": "entreprise-services",
+  "version": "1.0.0",
+  "main": "insert_data.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
