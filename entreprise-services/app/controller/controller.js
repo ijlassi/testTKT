@@ -1,36 +1,9 @@
 const db = require("../config/db.config.js");
 const Entreprise = db.entreprise;
 const Result = db.result;
-// var sequelize = require("sequelize");
 const Op = db.Sequelize.Op;
 
 
-exports.dataBaseAddingData = async function (req, res) {
-    var data = require('./test.json');
-    for (const entreprise of data) {
-        await Entreprise.create({
-            name: entreprise.name,
-            sector: entreprise.sector,
-            siren: entreprise.siren
-        }).then(async entreprises => {
-            for (const result of entreprise.results) {
-                await Result.create({
-                    ca: result.ca,
-                    margin: result.margin,
-                    ebitda: result.ebitda,
-                    loss: result.loss,
-                    year: result.year,
-                }).then(async results => {
-                    await entreprises.addEntreprises(results).then(response => {
-                        console.log("success!!")
-                    })
-                })
-            }
-        })
-
-    }
-    res.status(200).send("success")
-}
 
 exports.ajoutEntreprise = async function (req, res) {
     const { name, sector, siren } = req.body

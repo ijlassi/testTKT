@@ -1,7 +1,6 @@
 module.exports = function (app) {
   const controller = require("../controller/controller.js");
  
-  app.get("/api/entrepriseServices/dataBaseAddingData", controller.dataBaseAddingData);
   app.post("/api/entrepriseServices/ajoutEntreprise", controller.ajoutEntreprise);
   app.delete("/api/entrepriseServices/supprimerEntreprise/:siren", controller.supprimerEntreprise);
   app.post("/api/entrepriseServices/filtrerEntreprise", controller.filtrerEntreprise);
