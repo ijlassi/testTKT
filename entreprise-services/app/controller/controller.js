@@ -13,7 +13,11 @@ exports.ajoutEntreprise = async function (req, res) {
         sector,
         siren
     }).then(async entreprises => {
-        res.status(200).send("success")
+        if (!entreprises) {
+            res.status(400).send("failed")
+        } else {
+            res.status(200).send("success")
+        }
     })
 
 }
@@ -26,7 +30,12 @@ exports.supprimerEntreprise = async function (req, res) {
             siren: siren
         }
     }).then(async entreprises => {
-        res.status(200).send("entreprise supprimer")
+        if (!entreprises) {
+            res.status(400).send(" il n'y a pas d'entreprise avec ce siren")
+        } else {
+            res.status(200).send("entreprise supprimer")
+        }
+
     })
 
 }
@@ -55,10 +64,14 @@ exports.filtrerEntreprise = async function (req, res) {
     await Entreprise.findAll({
         where,
     }).then(async entreprises => {
-        res.status(200).send({
-            count: entreprises.length,
-            result: entreprises.slice(pageSize * (page - 1), pageSize * page),
-        });
+        if (entreprises) {
+            res.status(200).send({
+                count: entreprises.length,
+                result: entreprises.slice(pageSize * (page - 1), pageSize * page),
+            });
+        } else {
+            res.status(400).send([]);
+        }
     })
 
 }
@@ -81,10 +94,14 @@ exports.trierEntreprise = async function (req, res) {
             [varTrie, 'ASC'],
         ]
     }).then(async response => {
-        res.status(200).send({
-            count: response.length,
-            result: response.slice(pageSize * (page - 1), pageSize * page),
-        });
+        if (response) {
+            res.status(200).send({
+                count: response.length,
+                result: response.slice(pageSize * (page - 1), pageSize * page),
+            });
+        } else {
+            res.status(400).send([]);
+        }
     })
 }
 
@@ -125,12 +142,16 @@ exports.performance = async function (req, res) {
                 entrepriseId: entreprises.id
             }
         }).then(async results => {
-            res.status(200).send({
-                performanceCA: ((results[0].ca - results[1].ca) / results[1].ca)*100,
-                performanceMargin: ((results[0].margin - results[1].margin) / results[1].margin)*100,
-                performanceEbitda: ((results[0].ebitda - results[1].ebitda) / results[1].ebitda)*100,
-                performanceLoss: ((results[0].loss - results[1].loss) / results[1].loss)*100,
-            })
+            if (results) {
+                res.status(200).send({
+                    performanceCA: ((results[0].ca - results[1].ca) / results[1].ca) * 100,
+                    performanceMargin: ((results[0].margin - results[1].margin) / results[1].margin) * 100,
+                    performanceEbitda: ((results[0].ebitda - results[1].ebitda) / results[1].ebitda) * 100,
+                    performanceLoss: ((results[0].loss - results[1].loss) / results[1].loss) * 100,
+                })
+            } else {
+                res.status(400).send([])
+            }
         })
     })
 }
